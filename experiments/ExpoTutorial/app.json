@@ -22,7 +22,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "zoga.sensor"
+    },
+    "android": {
+      "package": "zoga.sensor"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }

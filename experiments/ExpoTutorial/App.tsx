@@ -1,5 +1,5 @@
-import React, { useState, Component } from 'react';
-import { StyleSheet, Text, View, Switch, Button, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Switch, Button, ActivityIndicator, PermissionsAndroid } from 'react-native';
 import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
 
 function ToggleOption(
@@ -58,6 +58,7 @@ type State = {
   location: null | GeolocationResponse,
   risk: null | Risk,
   trackLocation: boolean,
+  watchId: null | number,
 };
 
 const initialState: State = {
@@ -65,20 +66,61 @@ const initialState: State = {
   location: null,
   risk: null,
   trackLocation: false,
+  watchId: null,
 };
 
-// let setState: null | ((state: State) => void) = null;
+async function requestLocationPermission(): Promise<void> {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "Location Permission",
+        message:
+          "We need your permission to get access to your location.",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
 
-// let state: State = initialState;
+    switch (granted) {
+      case PermissionsAndroid.RESULTS.GRANTED:
+        console.log("We can get the location");
+        break;
+      default:
+        console.log("We cannot get the location");
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
-// const stateCallbacks: (() => void)[] = [];
+function watchPosition(onChange: (location: GeolocationResponse) => void): number {
+  Geolocation.getCurrentPosition(onChange);
+  return Geolocation.watchPosition(
+    location => {
+      console.log('Got location');
+      console.log(location);
+      onChange(location);
+      fetch(
+        'http://coq.io:8080/?lat=' +
+        location.coords.latitude +
+        "&lng=" +
+        location.coords.longitude
+      );
+    },
+    error => {
+      console.warn(error);
+    },
+    {
+      distanceFilter: 50,
+      enableHighAccuracy: false,
+      useSignificantChanges: false,
+    }
+  );
+}
 
-// function setState(newState: State): void {
-//   state = newState;
-//   stateCallbacks.forEach(callback => callback());
-// }
-
-function App(props: {setState: (state: State) => void, state: State}) {
+function App(props: {setState: (state: Partial<State>) => void, state: State}) {
   // const [state, setState] = useState(initialState);
   const {setState, state} = props;
   // Geolocation.getCurrentPosition(info => console.log(info));
@@ -89,7 +131,21 @@ function App(props: {setState: (state: State) => void, state: State}) {
       <View>
         <ToggleOption
           label="Track location"
-          onChange={value => setState({...state, trackLocation: value})}
+          onChange={value => {
+            (async () => {
+              if (value) {
+                await requestLocationPermission();
+                const watchId = watchPosition(location => setState({location}));
+                console.log('watchId', watchId);
+                setState({trackLocation: true, watchId});
+              } else {
+                if (state.watchId !== null) {
+                  Geolocation.clearWatch(state.watchId);
+                }
+                setState({trackLocation: false, watchId: null});
+              }
+            })();
+          }}
           value={state.trackLocation}
         />
         <ToggleOption
@@ -118,31 +174,18 @@ function App(props: {setState: (state: State) => void, state: State}) {
 export default class AppWrapper extends Component<{}, State> {
   state: State = initialState;
 
-  // setState = (newState: State): void => {
-  //   state = newState;
-  //   this.forceUpdate();
-  // };
+  onChange = (state: Partial<State>): void => {
+    this.setState(state as any);
+  };
 
   componentDidMount(): void {
-    Geolocation.watchPosition(
-      location => {
-        const coords = [location.coords.latitude, location.coords.longitude];
-        this.setState({location});
-        fetch('http://192.168.43.87:8080/?loc=' + JSON.stringify(coords));
-      },
-      undefined,
-      {
-        distanceFilter: 100,
-        enableHighAccuracy: false,
-        useSignificantChanges: true,
-      }
-    );
+    console.log('Application started');
   }
 
   render() {
     return (
       <App
-        setState={this.setState}
+        setState={this.onChange}
         state={this.state}
       />
     );
