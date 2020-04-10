@@ -1,24 +1,21 @@
 import * as express from "express";
+import * as bodyParser from 'body-parser';
 
-type Location = {
-  lat: number,
-  lng: number,
-};
+import { Location, UserEvent } from './types'
+import conf from './conf'
 
-type UserEvent = {
-  id: string,
-  isSick: boolean,
-  location: Location,
-};
-
-type State = UserEvent[];
 
 const app = express();
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('hi');
 });
 
-app.listen(3000, () => {
+app.post('/sensor', (req,res) => {
+  res.send(`user id ${req.body['id']} sent ${req.body}`)
+});
+
+app.listen(conf.PORT, () => {
   console.log('Server started!')
 });
