@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Switch, Button, ActivityIndicator, PermissionsAndroid } from 'react-native';
 import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
+import Config from 'react-native-config';
 
 function ToggleOption(
   props: {
@@ -103,7 +104,8 @@ function watchPosition(onChange: (location: GeolocationResponse) => void): numbe
       console.log(location);
       onChange(location);
       fetch(
-        'http://coq.io:8080/?lat=' +
+        Config.API_URL +
+        '/?lat=' +
         location.coords.latitude +
         "&lng=" +
         location.coords.longitude
@@ -180,6 +182,7 @@ export default class AppWrapper extends Component<{}, State> {
 
   componentDidMount(): void {
     console.log('Application started');
+    console.log('Config', Config.API_URL);
   }
 
   render() {
