@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text, View, Switch } from 'react-native';
+import * as Controller from './controller';
 import { Dispatch } from './model';
 
 function ToggleOption(
   props: {
     label: string,
-    onToggle: null | (() => void),
+    onChange: null | ((value: boolean) => void),
     value: boolean,
   }
 ) {
@@ -13,8 +14,8 @@ function ToggleOption(
     <View style={{flexDirection: 'row'}}>
       <Text>{props.label}</Text>
       <Switch
-        disabled={!props.onToggle}
-        {...props.onToggle ? {onValueChange: props.onToggle} : {}}
+        disabled={!props.onChange}
+        {...props.onChange ? {onValueChange: props.onChange} : {}}
         value={props.value}
       />
     </View>
@@ -31,12 +32,12 @@ export default function Settings(props: Props) {
     <View>
       <ToggleOption
         label="Track location"
-        onToggle={() => props.dispatch({type: 'Settings.ToggleLocation'})}
+        onChange={value => props.dispatch(Controller.settingsLocationTrackingChange(value))}
         value={props.trackLocation}
       />
       <ToggleOption
         label="Track Bluetooth contacts"
-        onToggle={null}
+        onChange={null}
         value={false}
       />
     </View>

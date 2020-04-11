@@ -4,7 +4,7 @@ export type Risk = 'Avoid' | 'Cautious' | 'Safe';
 
 export type State = {
   isSick: boolean,
-  location: null | GeolocationResponse,
+  locations: GeolocationResponse[],
   risk: null | Risk,
   trackLocation: boolean,
   watchId: null | number,
@@ -12,26 +12,47 @@ export type State = {
 
 export const initialState: State = {
   isSick: false,
-  location: null,
+  locations: [],
   risk: null,
   trackLocation: false,
   watchId: null,
 };
 
 export type Action = {
-  type: 'Settings.ToggleLocation',
+  type: 'Locations.Push',
+  location: GeolocationResponse,
+} | {
+  type: 'Locations.SetWatchId',
+  watchId: number,
+} | {
+  type: 'Settings.LocationTracking.Change',
+  activate: boolean,
 } | {
   type: 'Sickness.Toggle',
 };
 
-export type Dispatch = (action: Action) => unknown;
+type GetState = () => State;
+
+export type Thunk = (dispatch: Dispatch, getState: GetState) => Promise<void>;
+
+export type Dispatch = (actionOrThunk: Action | Thunk) => unknown;
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'Settings.ToggleLocation':
+    case 'Locations.Push':
       return {
         ...state,
-        trackLocation: !state.trackLocation,
+        locations: [action.location, ...state.locations],
+      };
+    case 'Locations.SetWatchId':
+      return {
+        ...state,
+        watchId: action.watchId,
+      };
+    case 'Settings.LocationTracking.Change':
+      return {
+        ...state,
+        trackLocation: action.activate,
       };
     case 'Sickness.Toggle':
       return {

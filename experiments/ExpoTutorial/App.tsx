@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { Provider } from 'react-redux';
-import Config from 'react-native-config';
+import Config from './src/config';
 import Index from './src/Index';
 import store from './src/store';
 
