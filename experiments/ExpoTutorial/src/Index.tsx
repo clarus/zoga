@@ -13,15 +13,6 @@ type Props = {
   state: State,
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    marginTop: StatusBar.currentHeight,
-    padding: 10,
-  },
-});
-
 function Index(props: Props) {
   return (
     <View style={styles.container}>
@@ -41,3 +32,12 @@ function Index(props: Props) {
 }
 
 export default connect((state: State) => ({state}))(Index);
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    flex: 1,
+    marginTop: StatusBar.currentHeight,
+    padding: 10,
+  },
+});

@@ -1,22 +1,36 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Risk } from './model';
 
 type Props = {
   risk: null | Risk,
 };
 
-export default function RiskStatus(props: Props) {
-  if (!props.risk) {
-    return <Text>Your risk is unknown</Text>;
+function riskMessage(risk: null | Risk): string {
+  if (!risk) {
+    return 'Your risk is unknown';
   }
 
-  switch (props.risk) {
+  switch (risk) {
     case 'Avoid':
-      return <Text>Avoid this area if possible</Text>;
+      return 'Avoid this area if possible';
     case 'Cautious':
-      return <Text>Be cautious</Text>;
+      return 'Be cautious';
     case 'Safe':
-      return <Text>You are safe</Text>;
+      return 'You are safe';
   }
 }
+
+export default function RiskStatus(props: Props) {
+  return (
+    <View style={styles.container}>
+      <Text>{riskMessage(props.risk)}</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'crimson',
+  },
+});
