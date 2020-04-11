@@ -12,24 +12,30 @@ type Props = {
 export default function Settings(props: Props) {
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
-      <SettingsOption
-        label="Track location"
-        onChange={value => props.dispatch(Controller.settingsLocationTrackingChange(value))}
-        value={props.trackLocation}
-      />
-      <SettingsOption
-        label="Track Bluetooth contacts"
-        onChange={null}
-        value={false}
-      />
+      <Text style={styles.title}>Settings</Text>
+      <View style={styles.content}>
+        <SettingsOption
+          label="Track location"
+          onChange={value => props.dispatch(Controller.settingsLocationTrackingChange(value))}
+          value={props.trackLocation}
+        />
+        <SettingsOption
+          label="Track Bluetooth contacts"
+          onChange={null}
+          value={false}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'orange',
-    flex: 1,
+  },
+  content: {
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

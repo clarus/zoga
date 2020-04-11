@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { GeolocationResponse } from '@react-native-community/geolocation';
 
 type Props = {
@@ -8,25 +8,36 @@ type Props = {
 
 export default function Map(props: Props) {
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Location history</Text>
       {props.locations.length
         ?
-          <>
-            {props.locations.map((location, index) =>
-              <Text key={props.locations.length - 1 - index}>
-                {location.coords.latitude}, {location.coords.longitude}
-              </Text>
-            )}
-          </>
+          <ScrollView>
+            {props.locations.map((location, index) => {
+              const rank = props.locations.length - index;
+
+              return (
+                <Text key={rank}>
+                  {location.coords.latitude}, {location.coords.longitude} ({rank})
+                </Text>
+              );
+            })}
+          </ScrollView>
         : <Text>Unknown locations</Text>
       }
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'green',
+    flex: 2,
+  },
+  content: {
     flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

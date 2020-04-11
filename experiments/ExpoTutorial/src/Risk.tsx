@@ -21,17 +21,40 @@ function riskMessage(risk: null | Risk): string {
   }
 }
 
+function riskIcon(risk: null | Risk): string {
+  if (!risk) {
+    return '❓';
+  }
+
+  switch (risk) {
+    case 'Avoid':
+      return '💥';
+    case 'Cautious':
+      return '🌊';
+    case 'Safe':
+      return '✔️';
+  }
+}
+
 export default function RiskStatus(props: Props) {
   return (
     <View style={styles.container}>
-      <Text>{riskMessage(props.risk)}</Text>
+      <Text style={styles.icon}>{riskIcon(props.risk)}</Text>
+      <Text style={styles.label}>{riskMessage(props.risk)}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'crimson',
-    flex: 2,
+    alignItems: 'center',
+    flex: 3,
+    justifyContent: 'center',
+  },
+  icon: {
+    fontSize: 50,
+  },
+  label: {
+    fontSize: 20,
   },
 });
