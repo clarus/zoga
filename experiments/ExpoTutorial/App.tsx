@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Switch, Button, ActivityIndicator, PermissionsAndroid } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Switch, StatusBar, PermissionsAndroid } from 'react-native';
 import Geolocation, { GeolocationResponse } from '@react-native-community/geolocation';
 import Config from 'react-native-config';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, Layout, TopNavigation, Text, Button, Divider, Spinner, Toggle } from '@ui-kitten/components';
+
 
 function ToggleOption(
   props: {
@@ -12,12 +15,14 @@ function ToggleOption(
 ) {
   return (
     <View style={{flexDirection: 'row'}}>
-      <Text>{props.label}</Text>
-      <Switch
+      <Toggle
+        checked={props.value}
         disabled={!props.onChange}
         {...props.onChange ? {onValueChange: props.onChange} : {}}
-        value={props.value}
-      />
+        status="info"
+      >
+        {evaProps => <Text {...evaProps}>{props.label}</Text>}
+      </Toggle>
     </View>
   );
 }
@@ -49,8 +54,9 @@ function SicknessStatus(props: {onToggle: () => void, value: boolean}) {
   return (
     <Button
       onPress={props.onToggle}
-      title={props.value ? 'I FEEL SICK' : 'I DO NOT FEEL SICK'}
-    />
+    >
+      {props.value ? 'I FEEL SICK' : 'I DO NOT FEEL SICK'}
+    </Button>
   )
 }
 
@@ -128,8 +134,8 @@ function App(props: {setState: (state: Partial<State>) => void, state: State}) {
   // Geolocation.getCurrentPosition(info => console.log(info));
 
   return (
-    <View style={styles.container}>
-      <Text>Zoga</Text>
+    <>
+      <Text>Zoga d</Text>
       <View>
         <ToggleOption
           label="Track location"
@@ -161,7 +167,7 @@ function App(props: {setState: (state: Partial<State>) => void, state: State}) {
         : <Text>Unknown location</Text>
       }
       <View>
-        {state.risk ? <RiskStatus risk={state.risk} /> : <ActivityIndicator />}
+        {state.risk ? <RiskStatus risk={state.risk} /> : <Spinner />}
       </View>
       <View>
         <SicknessStatus
@@ -169,7 +175,7 @@ function App(props: {setState: (state: Partial<State>) => void, state: State}) {
           value={state.isSick}
         />
       </View>
-    </View>
+    </>
   );
 }
 
@@ -187,19 +193,18 @@ export default class AppWrapper extends Component<{}, State> {
 
   render() {
     return (
-      <App
-        setState={this.onChange}
-        state={this.state}
-      />
+      <ApplicationProvider {...eva} theme={eva.dark}>
+        <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+          <TopNavigation title='Zoga sensor'/>
+          <Divider />
+          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <App
+              setState={this.onChange}
+              state={this.state}
+            />
+          </Layout>
+        </SafeAreaView>
+      </ApplicationProvider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
