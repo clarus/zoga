@@ -32,5 +32,6 @@ export default function RiskStatus(props: Props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'crimson',
+    flex: 2,
   },
 });

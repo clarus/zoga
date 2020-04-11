@@ -30,5 +30,6 @@ export default function Settings(props: Props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'orange',
+    flex: 1,
   },
 });

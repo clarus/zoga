@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Switch } from 'react-native';
+import { StyleSheet, Text, View, Switch } from 'react-native';
 
 type Props = {
   label: string,
@@ -9,8 +9,8 @@ type Props = {
 
 export default function SettingsOption(props: Props) {
   return (
-    <View style={{flexDirection: 'row'}}>
-      <Text>{props.label}</Text>
+    <View style={styles.container}>
+      <Text style={styles.label}>{props.label}</Text>
       <Switch
         disabled={!props.onChange}
         {...props.onChange ? {onValueChange: props.onChange} : {}}
@@ -19,3 +19,12 @@ export default function SettingsOption(props: Props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+  },
+  label: {
+    flex: 1,
+  },
+});

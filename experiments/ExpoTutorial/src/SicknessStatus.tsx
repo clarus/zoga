@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 
 type Props = {
   onToggle: () => void,
@@ -8,9 +8,17 @@ type Props = {
 
 export default function SicknessStatus(props: Props) {
   return (
-    <Button
-      onPress={props.onToggle}
-      title={props.value ? 'I FEEL SICK' : 'I DO NOT FEEL SICK'}
-    />
+    <View style={styles.container}>
+      <Button
+        onPress={props.onToggle}
+        title={props.value ? 'I FEEL SICK' : 'I DO NOT FEEL SICK'}
+      />
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 10,
+  },
+});
