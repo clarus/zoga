@@ -3,12 +3,11 @@ import * as bodyParser from 'body-parser';
 
 import { Location, UserEvent } from './types'
 import conf from './conf'
+import { request } from "http";
 
 
 const app = express();
 app.use(bodyParser.json());
-
-//const router = express.Router();
 
 app.get('/', (req, res) => {
   res.send('hi');
@@ -16,7 +15,10 @@ app.get('/', (req, res) => {
 
 // Sensor routes
 app.post('/sensor', (req,res) => {
-  res.send(`user id ${req.params['id']} sent ${req.body}`)
+  let { lat, lng } = req.body['location']
+  let txt = `user id ${req.body['id']} sent ${lat} ${lng}`
+  console.log(txt)
+  res.send({success: 'ok'})
 });
 
 // "Analytics" routes
@@ -28,3 +30,5 @@ app.get('/user/:user_id', (req, res) => {
 app.listen(conf.PORT, () => {
   console.log('Server started!')
 });
+
+export default app
