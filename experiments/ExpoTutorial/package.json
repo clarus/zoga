@@ -2,7 +2,7 @@
   "scripts": {
     "start": "ENVFILE=.env.dev react-native start",
     "android": "ENVFILE=.env.dev react-native run-android",
-    "android-release": "ENVFILE=.env.dev react-native run-android --variant=release",
+    "android-release": "ENVFILE=.env.release react-native run-android --variant=release",
     "ios": "ENVFILE=.env.dev react-native run-ios",
     "web": "ENVFILE=.env.dev expo start --web"
   },
