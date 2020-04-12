@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { GeolocationResponse } from '@react-native-community/geolocation';
+import MapItem from './MapItem';
 
 type Props = {
   locations: GeolocationResponse[],
@@ -13,13 +14,25 @@ export default function Map(props: Props) {
       {props.locations.length
         ?
           <ScrollView>
+            <MapItem
+              isTitle
+              latitude="Latitude"
+              longitude="Longitude"
+              rank="Rank"
+              radius="Radius"
+            />
             {props.locations.map((location, index) => {
               const rank = props.locations.length - index;
 
               return (
-                <Text key={rank}>
-                  {location.coords.latitude}, {location.coords.longitude} ({rank})
-                </Text>
+                <MapItem
+                  isTitle={false}
+                  key={rank}
+                  latitude={String(location.coords.latitude)}
+                  longitude={String(location.coords.longitude)}
+                  rank={`(${rank})`}
+                  radius={`${location.coords.accuracy}m`}
+                />
               );
             })}
           </ScrollView>
