@@ -3,6 +3,31 @@ import Geolocation, { GeolocationResponse } from '@react-native-community/geoloc
 import Config from './config';
 import { Thunk } from './model';
 
+async function getDeviceId(): Promise<null | string> {
+  if (Platform.OS !== 'web') {
+    // We need to do a local import as this module does not work on the web
+    // platform.
+    const DeviceInfo = await import('react-native-device-info');
+
+    return DeviceInfo.getUniqueId();
+  }
+
+  return null;
+}
+
+async function sendUpdateToTheServer(
+  location: GeolocationResponse
+): Promise<void> {
+  console.log(
+    'server update',
+    Config.API_URL,
+    location.coords.latitude,
+    location.coords.longitude,
+    location.coords.accuracy,
+    await getDeviceId(),
+  );
+}
+
 async function requestAndroidLocationPermission(): Promise<void> {
   try {
     const granted = await PermissionsAndroid.request(
@@ -59,6 +84,7 @@ async function watchPosition(
 function onLocationUpdate(location: GeolocationResponse): Thunk {
   return async (dispatch, getState) => {
     dispatch({type: 'Locations.Push', location});
+    await sendUpdateToTheServer(location);
   };
 }
 
