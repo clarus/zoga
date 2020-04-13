@@ -1,6 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { GeolocationResponse } from '@react-native-community/geolocation';
+import { StyleSheet, Text, View } from 'react-native';
 
 type Props = {
   isTitle: boolean,

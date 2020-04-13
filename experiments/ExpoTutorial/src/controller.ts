@@ -60,11 +60,14 @@ async function watchPosition(
   if (Platform.OS === 'android') {
     await requestAndroidLocationPermission();
   }
+
   Geolocation.getCurrentPosition(
     onChange,
-    undefined,
+    error => {
+      console.warn(error);
+    },
     {
-      enableHighAccuracy: false
+      enableHighAccuracy: false,
     }
   );
 

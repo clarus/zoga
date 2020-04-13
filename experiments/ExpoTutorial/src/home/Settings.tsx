@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import * as Controller from './controller';
-import { Dispatch } from './model';
+import * as Controller from '../controller';
+import { Dispatch } from '../model';
 import SettingsOption from './SettingsOption';
 
 type Props = {

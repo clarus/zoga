@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Risk } from './model';
+import { Risk } from '../model';
 
 type Props = {
   risk: null | Risk,
@@ -48,7 +48,7 @@ export default function RiskStatus(props: Props) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 3,
+    flex: 1,
     justifyContent: 'center',
   },
   icon: {

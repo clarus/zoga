@@ -1,13 +1,13 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { GeolocationResponse } from '@react-native-community/geolocation';
-import MapItem from './MapItem';
+import MapItem from './LocationItem';
 
 type Props = {
   locations: GeolocationResponse[],
 };
 
-export default function Map(props: Props) {
+export default function Locations(props: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Location history</Text>
@@ -44,9 +44,6 @@ export default function Map(props: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
-  },
-  content: {
     flex: 1,
   },
   title: {
