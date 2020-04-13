@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { State } from './model';
+import Bluetooth from './bluetooth/Index';
 import Home from './home/Index';
 import Map from './map/Index';
 
@@ -35,6 +36,17 @@ function Index(props: Props) {
         >
           {() =>
             <Map
+              dispatch={props.dispatch}
+              state={props.state}
+            />
+          }
+        </Stack.Screen>
+        <Stack.Screen
+          name="Bluetooth"
+          options={{title: 'Bluetooth'}}
+        >
+          {() =>
+            <Bluetooth
               dispatch={props.dispatch}
               state={props.state}
             />
