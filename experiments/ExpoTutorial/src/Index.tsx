@@ -25,8 +25,8 @@ function Index(props: Props) {
       />
       <Separator />
       <Map locations={props.state.locations} />
-      <Separator />
-      <Risk risk={props.state.risk} />
+      {/* <Separator />
+      <Risk risk={props.state.risk} /> */}
       <SicknessStatus
         onToggle={() => props.dispatch({type: 'Sickness.Toggle'})}
         value={props.state.isSick}
