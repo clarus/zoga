@@ -5,8 +5,8 @@ import { Dispatch } from '../model';
 import SettingsOption from './SettingsOption';
 
 type Props = {
-  dispatch: Dispatch,
-  trackLocation: boolean,
+  dispatch: Dispatch;
+  trackLocation: boolean;
 };
 
 export default function Settings(props: Props) {
@@ -16,7 +16,9 @@ export default function Settings(props: Props) {
       <View style={styles.content}>
         <SettingsOption
           label="Track location"
-          onChange={value => props.dispatch(Controller.settingsLocationTrackingChange(value))}
+          onChange={(value) =>
+            props.dispatch(Controller.settingsLocationTrackingChange(value))
+          }
           value={props.trackLocation}
         />
         <SettingsOption
@@ -30,10 +32,8 @@ export default function Settings(props: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-  },
-  content: {
-  },
+  container: {},
+  content: {},
   title: {
     fontSize: 16,
     fontWeight: 'bold',

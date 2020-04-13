@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 
 type Props = {
-  onToggle: () => void,
-  value: boolean,
+  onToggle: () => void;
+  value: boolean;
 };
 
 export default function SicknessStatus(props: Props) {
@@ -14,7 +14,7 @@ export default function SicknessStatus(props: Props) {
         title={props.value ? 'I FEEL SICK' : 'I DO NOT FEEL SICK'}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
