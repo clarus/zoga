@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Zoga Sensor",
-    "slug": "Zoga Sensor",
+    "slug": "ZogaSensor",
     "platforms": [
       "ios",
       "android",
