@@ -64,7 +64,7 @@ async function watchPosition(
     onChange,
     undefined,
     {
-      enableHighAccuracy: false
+      enableHighAccuracy: true
     }
   );
 
@@ -75,7 +75,7 @@ async function watchPosition(
     },
     {
       distanceFilter: 50,
-      enableHighAccuracy: false,
+      enableHighAccuracy: true,
       useSignificantChanges: false,
     }
   );
