@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, StatusBar } from 'react-native';
+import BleManager from 'react-native-ble-manager';
 import { State } from './model';
 import Map from './Map';
 import Risk from './Risk';
@@ -13,6 +14,22 @@ type Props = {
   dispatch: any,
   state: State,
 };
+
+function wait(timeout: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
+async function startBle(): Promise<void> {
+  await BleManager.start({showAlert: false});
+  console.log('BLE initialized');
+  await BleManager.enableBluetooth();
+  await BleManager.scan([], 5);
+  await wait(4 * 1000);
+  const visibleDevices = await BleManager.getDiscoveredPeripherals();
+  console.log('visibleDevices', visibleDevices.map(({id}) => id));
+}
+
+startBle();
 
 function Index(props: Props) {
   return (
