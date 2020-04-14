@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Risk } from '../model';
 
 type Props = {
-  risk: null | Risk,
+  risk: null | Risk;
 };
 
 function riskMessage(risk: null | Risk): string {

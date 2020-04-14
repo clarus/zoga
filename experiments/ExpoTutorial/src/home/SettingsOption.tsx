@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Switch } from 'react-native';
 
 type Props = {
-  label: string,
-  onChange: null | ((value: boolean) => void),
-  value: boolean,
+  label: string;
+  onChange: null | ((value: boolean) => void);
+  value: boolean;
 };
 
 export default function SettingsOption(props: Props) {
@@ -13,7 +13,7 @@ export default function SettingsOption(props: Props) {
       <Text style={styles.label}>{props.label}</Text>
       <Switch
         disabled={!props.onChange}
-        {...props.onChange ? {onValueChange: props.onChange} : {}}
+        {...(props.onChange ? { onValueChange: props.onChange } : {})}
         value={props.value}
       />
     </View>

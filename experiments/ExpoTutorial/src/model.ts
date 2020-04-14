@@ -3,12 +3,12 @@ import { GeolocationResponse } from '@react-native-community/geolocation';
 export type Risk = 'Avoid' | 'Cautious' | 'Safe';
 
 export type State = {
-  bluetoothDevices: null | string[],
-  isSick: boolean,
-  locations: GeolocationResponse[],
-  risk: null | Risk,
-  trackLocation: boolean,
-  watchId: null | number,
+  bluetoothDevices: null | string[];
+  isSick: boolean;
+  locations: GeolocationResponse[];
+  risk: null | Risk;
+  trackLocation: boolean;
+  watchId: null | number;
 };
 
 export const initialState: State = {
@@ -20,23 +20,29 @@ export const initialState: State = {
   watchId: null,
 };
 
-export type Action = {
-  type: 'Bluetooth.Scanning.Start',
-} | {
-  type: 'Bluetooth.Scanning.Success',
-  devices: string[],
-} | {
-  type: 'Locations.Push',
-  location: GeolocationResponse,
-} | {
-  type: 'Locations.SetWatchId',
-  watchId: number,
-} | {
-  type: 'Settings.LocationTracking.Change',
-  activate: boolean,
-} | {
-  type: 'Sickness.Toggle',
-};
+export type Action =
+  | {
+      type: 'Bluetooth.Scanning.Start';
+    }
+  | {
+      type: 'Bluetooth.Scanning.Success';
+      devices: string[];
+    }
+  | {
+      type: 'Locations.Push';
+      location: GeolocationResponse;
+    }
+  | {
+      type: 'Locations.SetWatchId';
+      watchId: number;
+    }
+  | {
+      type: 'Settings.LocationTracking.Change';
+      activate: boolean;
+    }
+  | {
+      type: 'Sickness.Toggle';
+    };
 
 type GetState = () => State;
 

@@ -8,9 +8,9 @@ import Settings from './Settings';
 import SicknessStatus from './SicknessStatus';
 
 type Props = {
-  dispatch: Dispatch,
-  navigation: StackNavigationHelpers,
-  state: State,
+  dispatch: Dispatch;
+  navigation: StackNavigationHelpers;
+  state: State;
 };
 
 export default function Home(props: Props) {
@@ -23,7 +23,7 @@ export default function Home(props: Props) {
       <Separator />
       <Risk risk={props.state.risk} />
       <SicknessStatus
-        onToggle={() => props.dispatch({type: 'Sickness.Toggle'})}
+        onToggle={() => props.dispatch({ type: 'Sickness.Toggle' })}
         value={props.state.isSick}
       />
       <View style={styles.buttons}>

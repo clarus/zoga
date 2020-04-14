@@ -5,12 +5,12 @@ import Locations from './Locations';
 import MapContent from './MapContent';
 
 type Props = {
-  dispatch: Dispatch,
-  state: State,
+  dispatch: Dispatch;
+  state: State;
 };
 
 export default function Map(props: Props) {
-  const {locations} = props.state;
+  const { locations } = props.state;
 
   return (
     <View style={styles.container}>

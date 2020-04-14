@@ -4,7 +4,7 @@ import { GeolocationResponse } from '@react-native-community/geolocation';
 import MapView from 'react-native-maps';
 
 type Props = {
-  location: null | GeolocationResponse,
+  location: null | GeolocationResponse;
 };
 
 const defaultLocation = {
@@ -13,10 +13,9 @@ const defaultLocation = {
 };
 
 export default function MapContent(props: Props) {
-  const {latitude, longitude} =
-    props.location
-      ? props.location.coords
-      : defaultLocation;
+  const { latitude, longitude } = props.location
+    ? props.location.coords
+    : defaultLocation;
 
   return (
     <MapView
