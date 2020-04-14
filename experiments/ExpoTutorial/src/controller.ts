@@ -2,7 +2,9 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import Geolocation, {
   GeolocationResponse,
 } from '@react-native-community/geolocation';
+import BackgroundFetch from 'react-native-background-fetch';
 import Config from './config';
+import * as ServiceBluetooth from './service/bluetooth';
 import { Thunk } from './model';
 
 async function getDeviceId(): Promise<null | string> {
@@ -108,5 +110,60 @@ export function settingsLocationTrackingChange(activate: boolean): Thunk {
         Geolocation.clearWatch(watchId);
       }
     }
+  };
+}
+
+async function backgroundTask(taskId: string): Promise<void> {
+  console.log('[js] Received background-fetch event: ', taskId);
+  const devices = await ServiceBluetooth.scanDevices();
+  console.log(
+    'Bluetooth devices (background task)',
+    new Date().toLocaleString(),
+    devices,
+  );
+}
+
+export function setupBackgroundCheck(): Thunk {
+  return async (dispatch, getState) => {
+    await backgroundTask('init');
+    BackgroundFetch.configure(
+      {
+        minimumFetchInterval: 15,
+        // Android options
+        forceAlarmManager: false,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE, // Default
+        requiresCharging: false, // Default
+        requiresDeviceIdle: false, // Default
+        requiresBatteryNotLow: false, // Default
+        requiresStorageNotLow: false, // Default
+      },
+      async (taskId) => {
+        await backgroundTask(taskId);
+        // Required: Signal completion of your task to native code
+        // If you fail to do this, the OS can terminate your app
+        // or assign battery-blame for consuming too much background-time
+        BackgroundFetch.finish(taskId);
+      },
+      (error) => {
+        console.log('[js] RNBackgroundFetch failed to start');
+      },
+    );
+
+    // Optional: Query the authorization status.
+    BackgroundFetch.status((status) => {
+      switch (status) {
+        case BackgroundFetch.STATUS_RESTRICTED:
+          console.log('BackgroundFetch restricted');
+          break;
+        case BackgroundFetch.STATUS_DENIED:
+          console.log('BackgroundFetch denied');
+          break;
+        case BackgroundFetch.STATUS_AVAILABLE:
+          console.log('BackgroundFetch is enabled');
+          break;
+      }
+    });
   };
 }
