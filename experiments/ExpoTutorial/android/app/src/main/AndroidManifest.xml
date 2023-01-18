@@ -38,7 +38,7 @@
     <meta-data android:name="expo.modules.updates.EXPO_RELEASE_CHANNEL" android:value="default" />
     <meta-data
       android:name="com.google.android.geo.API_KEY"
-      android:value="AIzaSyCX1c56Cf1g2XZlHkqK75I3ZKvxLtN2Xyo"
+      android:value="*****************************"
     />
     <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
